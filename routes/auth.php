@@ -7,16 +7,35 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
-//use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
+/*
+|--------------------------------------------------------------------------
+| Rotas Apenas para Administradores
+|--------------------------------------------------------------------------
+|
+| Apenas usuários logados e com a role de admin podem acessar estas rotas.
+|
+*/
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('register', [RegisteredUserController::class, 'create'])
+        ->name('register');
+
+    Route::post('register', [RegisteredUserController::class, 'store']);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Rotas para Visitantes (Não Autenticados)
+|--------------------------------------------------------------------------
+|
+| O middleware 'guest' garante que apenas usuários não logados acessem.
+|
+*/
 Route::middleware('guest')->group(function () {
-    //Route::get('register', [RegisteredUserController::class, 'create'])
-        //->name('register');
-
-    //Route::post('register', [RegisteredUserController::class, 'store']);
-
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
@@ -35,6 +54,15 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 });
 
+
+/*
+|--------------------------------------------------------------------------
+| Rotas para Usuários Autenticados
+|--------------------------------------------------------------------------
+|
+| O middleware 'auth' garante que o usuário esteja logado.
+|
+*/
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');

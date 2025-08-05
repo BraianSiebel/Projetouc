@@ -9,13 +9,22 @@
                     {{ __('Área do Administrador') }}
                 </h2>
 
-                <a href="{{ route('vendedor.ClientePaganteCreate') }}">
-                    <x-primary-button>
-                        Adicionar Cliente
-                    </x-primary-button>
-                </a>
+                <div class="flex items-center space-x-2">
+                    <a href="{{ route('register') }}">
+                        <x-secondary-button>
+                            Registrar Novo Usuário
+                        </x-secondary-button>
+                    </a>
+
+                    <a href="{{ route('vendedor.ClientePaganteCreate') }}">
+                        <x-primary-button>
+                            Adicionar Cliente
+                        </x-primary-button>
+                    </a>
+                </div>
             </div>
         </x-slot>
+
 
         {{-- Conteúdo Principal --}}
         <div class="py-12">
@@ -56,7 +65,7 @@
 
                                     {{-- Botão de Exclusão (agora sempre visível) --}}
                                     <div class="mt-4 flex justify-end">
-                                        <form method="POST" action="{{ route('cliente.destroy', $cliente) }}"
+                                        <form method="POST" action="{{ route('admin.cliente.destroy', $cliente) }}"
                                             onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
                                             @csrf
                                             @method('DELETE')
