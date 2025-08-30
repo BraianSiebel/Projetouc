@@ -15,15 +15,14 @@ return new class extends Migration {
             $table->string('nome');
             $table->decimal('valor_contrato', 19, 4);
             $table->timestamps();
+            $table->softDeletes(); 
             $table->boolean('UC_existente')->default(true);
 
-            // --- LINHAS ADICIONADAS ---
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('set null');
-            // --------------------------
 
         });
     }

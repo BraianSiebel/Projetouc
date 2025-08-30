@@ -6,10 +6,12 @@ use App\Models\User;
 use App\Scopes\VendedorScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class clientesPagantes extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'nome',
